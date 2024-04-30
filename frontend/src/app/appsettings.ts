@@ -11,7 +11,6 @@ type ApiResponse = {
 
 const errorMap = new Map<string, string>();
 errorMap.set("NO_CREDS", "Please provide a valid username and password.");
-errorMap.set("INV_CREDS", "Please provide a valid username and password.");
 errorMap.set("INV_USERNAME", "Usernames must be shorter than 25 characters.");
 errorMap.set("EXP_SESS", "Your session has expired. Please sign in again.");
 errorMap.set("ER_NO_USER", "Your username or password is incorrect.");

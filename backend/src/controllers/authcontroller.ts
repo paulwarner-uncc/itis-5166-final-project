@@ -37,7 +37,7 @@ async function loginRequest(req: Request, res: Response) {
     if (!await argon2.verify(user.password, req.body.password)) {
         res.status(401).send({
             success: false,
-            error: "INV_CREDS",
+            error: "ER_NO_USER",
             data: null
         });
         return;
