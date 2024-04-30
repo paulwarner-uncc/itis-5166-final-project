@@ -11,7 +11,13 @@
   <div>
     <button type="submit" [disabled]="!loginForm.valid">Log In</button>
   </div>
+  <div *ngIf="this.serverError" class="error">
+    {{ this.serverError }}
+  </div>
   <div *ngIf="this.newAccount">
     Your account was created successfully. Please sign in to continue.
+  </div>
+  <div *ngIf="this.sessExpired">
+    Your session has expired. Please sign in to continue.
   </div>
 </form>

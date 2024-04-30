@@ -2,7 +2,8 @@ import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { convertErrorCodes } from '../appsettings';
 
 @Component({
   selector: 'app-login',
@@ -17,16 +18,25 @@ export class LoginComponent {
     password: new FormControl('', Validators.required)
   });
   newAccount = false;
+  serverError: string|null = null;
+  sessExpired: boolean = false;
 
   constructor(
     private authService: AuthenticationService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.route.queryParams.subscribe(params => {
       if ((params as any).new === "true") {
         this.newAccount = true;
       } else {
         this.newAccount = false;
+      }
+
+      if ((params as any).expired === "true") {
+        this.sessExpired = true;
+      } else {
+        this.sessExpired = false;
       }
     });
   }
@@ -38,7 +48,12 @@ export class LoginComponent {
     );
 
     resp.subscribe(data => {
-      console.log(data);
+      //console.log(data);
+      if (data.success) {
+        //this.router.navigate(["/dashboard"]);
+      } else {
+        this.serverError = convertErrorCodes(data.error as string);
+      }
     });
   }
 }

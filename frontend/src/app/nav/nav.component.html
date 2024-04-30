@@ -1,7 +1,11 @@
 <nav>
-  <ul>
-      <li><a routerLink="/" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a></li>
-      <li><a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Log In</a></li>
-      <li><a routerLink="/signup" routerLinkActive="active" ariaCurrentWhenActive="page">Sign Up</a></li>
+  <ul *ngFor="let route of navLinks">
+    <!-- Determine if the entry should appear given the current state of authentication -->
+    <li *ngIf="(route.requiresAuth && this.isAuthed) || (route.requiresNoAuth && !this.isAuthed) ||
+      (!route.requiresAuth && !route.requiresNoAuth)">
+      <a routerLink="{{route.route}}" routerLinkActive="active" ariaCurrentWhenActive="page">
+        {{route.displayName}}
+      </a>
+    </li>
   </ul>
 </nav>
