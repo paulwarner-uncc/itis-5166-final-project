@@ -1,0 +1,15 @@
+/* Desktop styling */
+@media screen and (width >= 40em) {
+  main {
+    margin: auto;
+    width: 50%;
+    min-width: 35em;
+  }
+}
+
+/* Mobile styling */
+@media screen and (width < 40em) {
+  main {
+    padding-left: 1em;
+  }
+}

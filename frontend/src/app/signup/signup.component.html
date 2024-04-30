@@ -1,0 +1,24 @@
+<form id="signupform" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+  <h1>Sign Up for Personal Budget</h1>
+  <div>
+    <label for="username">Username</label>
+    <input formControlName="username" id="username" type="text" required>
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input formControlName="password" id="password" type="password" required>
+  </div>
+  <div>
+    <label for="rptpassword">Repeat password</label>
+    <input formControlName="rptpassword" id="rptpassword" type="password" required>
+  </div>
+  <div>
+    <button type="submit" [disabled]="!signupForm.valid">Sign Up</button>
+  </div>
+  <div *ngIf="signupForm.errors?.['noMatchPass']" class="error">
+    The passwords do not match.
+  </div>
+  <div *ngIf="serverError !== null" class="error">
+    {{ serverError }}
+  </div>
+</form>

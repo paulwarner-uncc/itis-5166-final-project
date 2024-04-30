@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import "variables.scss";
+
+/* Desktop styling */
+@media screen and (width >= 40em) {
+  h1 {
+    text-align: center;
+  }
+}
+
+/* Mobile styling */
+@media screen and (width < 40em) {
+
+}
+
+body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-color: $body-bg-color;
+  color: $body-txt-color;
+}
+
+

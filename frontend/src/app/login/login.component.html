@@ -1,0 +1,17 @@
+<form id="loginform" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <h1>Log In to Personal Budget</h1>
+  <div>
+    <label for="username">Username</label>
+    <input formControlName="username" id="username" type="text" required>
+  </div>
+  <div>
+    <label for="password">Password</label>
+    <input formControlName="password" id="password" type="password" required>
+  </div>
+  <div>
+    <button type="submit" [disabled]="!loginForm.valid">Log In</button>
+  </div>
+  <div *ngIf="this.newAccount">
+    Your account was created successfully. Please sign in to continue.
+  </div>
+</form>

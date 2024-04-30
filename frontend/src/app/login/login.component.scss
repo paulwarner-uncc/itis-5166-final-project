@@ -1,0 +1,39 @@
+@use 'sass:color';
+@import "../../variables.scss";
+
+/* Desktop styling */
+@media screen and (width >= 40em) {
+  form {
+    text-align: center;
+  }
+}
+
+/* Mobile styling */
+@media screen and (width < 40em) {
+
+}
+
+div {
+  margin-bottom: 0.5em;
+}
+
+label {
+  display: inline-block;
+  width: 5em;
+  text-align: left;
+}
+
+button {
+  font-weight: bold;
+  font-size: medium;
+  padding: 0.5em 1em;
+  background-color: color.adjust($header-bg-color, $lightness: 5%);
+  color: $header-txt-color;
+  border: none;
+  border-radius: 0.5em;
+}
+
+button:hover {
+  background-color: color.adjust($header-bg-color, $lightness: 0%);
+  cursor: pointer;
+}
