@@ -1,5 +1,6 @@
 # TODO: migrate secrets to be, y'know, actually secret
 # TODO: put both frontend and backend behind nginx w/ caching, compression, etc.
+# TODO: set node environ variables to prod values
 
 services:
   database:

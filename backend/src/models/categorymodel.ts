@@ -39,4 +39,27 @@ async function getCategory(owner: number, id: number|undefined): Promise<RowData
     }
 }
 
-export { createCategory, getCategory };
+async function updateCategory(owner: number, id: number, name: string): Promise<number|string> {
+    try {
+        const [result,] = await connection.execute(
+            "UPDATE categories SET name = ? WHERE owner = ? AND id = ?", [name, owner, id]);
+
+        return (result as any).affectedRows as number;
+    } catch (err) {
+        return (err as any).code;
+    }
+}
+
+async function deleteCategory(owner: number, id: number): Promise<number|string> {
+    try {
+        const [result,] = await connection.execute(
+            "DELETE FROM categories WHERE owner = ? AND id = ?", [owner, id]);
+
+        console.log(result);
+        return (result as any).affectedRows as number;
+    } catch (err) {
+        return (err as any).code as string;
+    }
+}
+
+export { createCategory, getCategory, updateCategory, deleteCategory };
