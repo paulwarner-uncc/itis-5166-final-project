@@ -11,7 +11,8 @@ async function loginRequest(req: Request, res: Response) {
     if (typeof req.body.username !== "string" ||
         typeof req.body.password !== "string" ||
         req.body.username.length === 0 ||
-        req.body.password.length === 0) {
+        req.body.password.length === 0
+    ) {
         res.status(400).send({
             success: false,
             error: "NO_CREDS",

@@ -14,7 +14,13 @@ errorMap.set("NO_CREDS", "Please provide a valid username and password.");
 errorMap.set("INV_USERNAME", "Usernames must be shorter than 25 characters.");
 errorMap.set("EXP_SESS", "Your session has expired. Please sign in again.");
 errorMap.set("ER_NO_USER", "Your username or password is incorrect.");
-errorMap.set("ER_DUP_ENTRY", "That username is already in use.");
+errorMap.set("ER_DUP_USER", "That username is already in use.");
+errorMap.set("NOT_IMPL", "This part of the application has not been implemented.");
+errorMap.set("BAD_PAGE", "404 Error. Are you lost?");
+errorMap.set("NO_CAT_NAME", "Please provide a valid category name.");
+errorMap.set("INV_CAT_NAME", "Category names must be shorter than 25 categories.");
+errorMap.set("ER_DUP_CAT", "Category names must be unique.");
+errorMap.set("INV_CAT", "The specified category is invalid.");
 
 function convertErrorCodes(errCode: string): string {
   if (errorMap.has(errCode)) {

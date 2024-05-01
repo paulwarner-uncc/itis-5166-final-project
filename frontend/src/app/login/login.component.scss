@@ -37,3 +37,7 @@ button:hover {
   background-color: color.adjust($header-bg-color, $lightness: 0%);
   cursor: pointer;
 }
+
+.error {
+  color: red;
+}

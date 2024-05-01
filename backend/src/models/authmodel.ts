@@ -1,13 +1,6 @@
 import mysql, { RowDataPacket } from "mysql2/promise";
 import "dotenv/config";
-
-const connection = await mysql.createConnection({
-    host: process.env.DB_HOST,
-    port: Number(process.env.DB_PORT),
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_DATABASE
-});
+import { connection } from "./dbconfig.js";
 
 async function getUser(username: string): Promise<RowDataPacket|string> {
     try {
@@ -30,6 +23,10 @@ async function createUser(username: string, hash: string): Promise<string|null> 
             [username, hash]);
         return null;
     } catch (err) {
+        if ((err as any).code === "ER_DUP_ENTRY") {
+            return "ER_DUP_USER";
+        }
+
         return (err as any).code;
     }
 }

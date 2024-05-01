@@ -14,6 +14,16 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/budget", budgetRouter);
 
+// 404 page
+app.use((req, res) => {
+  res.status(404)
+  .send({
+    success: false,
+    error: "BAD_PAGE",
+    data: null
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Running on port ${PORT}`);
 });

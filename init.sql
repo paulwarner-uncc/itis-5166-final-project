@@ -8,3 +8,12 @@ CREATE TABLE users (
     password VARCHAR(100) NOT NULL,
     PRIMARY KEY (id)
 );
+
+CREATE TABLE categories (
+	id		INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name	VARCHAR(100) NOT NULL,
+    owner	INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (owner) REFERENCES users(id),
+    UNIQUE (name, owner)
+);
