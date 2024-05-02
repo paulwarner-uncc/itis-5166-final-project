@@ -1,12 +1,6 @@
 import { Request, Response } from "express";
 import * as categoryModel from "../models/categorymodel.js";
 
-const NOT_IMPLEMENTED = {
-    success: false,
-    error: "NOT_IMPL",
-    data: null
-};
-
 async function getCategories(req: Request, res: Response) {
     let data = await categoryModel.getCategory((req as any).auth.id, undefined);
 
@@ -227,9 +221,7 @@ async function newCategory(req: Request, res: Response) {
         .send({
             success: false,
             error: errorCode,
-            data: {
-                id: errorCode
-            }
+            data: null
         });
         return;
     }

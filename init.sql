@@ -17,3 +17,16 @@ CREATE TABLE categories (
     FOREIGN KEY (owner) REFERENCES users(id),
     UNIQUE (name, owner)
 );
+
+CREATE TABLE expenses (
+	id			INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    category	INT UNSIGNED NOT NULL,
+    owner		INT UNSIGNED NOT NULL,
+    year		SMALLINT UNSIGNED NOT NULL,
+    month		TINYINT UNSIGNED NOT NULL,
+    value		INT UNSIGNED NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (category) REFERENCES categories(id),
+    FOREIGN KEY (owner) REFERENCES users(id),
+    UNIQUE (category, owner, year, month)
+);
