@@ -15,7 +15,7 @@ CREATE TABLE categories (
     name	VARCHAR(100) NOT NULL,
     owner	INT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (owner) REFERENCES users(id),
+    FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE (name, owner)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE expenses (
     month		TINYINT UNSIGNED NOT NULL,
     value		FLOAT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (category) REFERENCES categories(id),
-    FOREIGN KEY (owner) REFERENCES users(id),
+    FOREIGN KEY (category) REFERENCES categories(id) ON DELETE CASCADE,
+    FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE (category, owner, year, month)
 );
