@@ -1,6 +1,7 @@
 USE budgets;
 
 -- TODO: modify default user permissions to be minimal
+-- TODO: add cascade deletes
 
 CREATE TABLE users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -24,7 +25,7 @@ CREATE TABLE expenses (
     owner		INT UNSIGNED NOT NULL,
     year		SMALLINT UNSIGNED NOT NULL,
     month		TINYINT UNSIGNED NOT NULL,
-    value		INT UNSIGNED NOT NULL,
+    value		FLOAT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (category) REFERENCES categories(id),
     FOREIGN KEY (owner) REFERENCES users(id),

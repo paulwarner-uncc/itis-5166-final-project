@@ -17,7 +17,7 @@ async function createCategory(name: string, owner: number): Promise<string|numbe
 }
 
 // Retrieve the specified category by id. If no id was specified, return all categories.
-async function getCategory(owner: number, id: number|undefined): Promise<RowDataPacket[]|string>{
+async function getCategory(owner: number, id?: number): Promise<RowDataPacket[]|string>{
     if (id === undefined) {
         try {
             const [result,] = await connection.execute("SELECT * FROM categories WHERE owner=?",
@@ -55,7 +55,6 @@ async function deleteCategory(owner: number, id: number): Promise<number|string>
         const [result,] = await connection.execute(
             "DELETE FROM categories WHERE owner = ? AND id = ?", [owner, id]);
 
-        console.log(result);
         return (result as any).affectedRows as number;
     } catch (err) {
         return (err as any).code as string;

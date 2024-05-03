@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import * as categoryModel from "../models/categorymodel.js";
 
 async function getCategories(req: Request, res: Response) {
-    let data = await categoryModel.getCategory((req as any).auth.id, undefined);
+    let data = await categoryModel.getCategory((req as any).auth.id);
 
     if (typeof data === "string") {
         res.status(400)
@@ -214,13 +214,13 @@ async function newCategory(req: Request, res: Response) {
         return;
     }
 
-    let errorCode = await categoryModel.createCategory(req.body.name, (req as any).auth.id);
+    let data = await categoryModel.createCategory(req.body.name, (req as any).auth.id);
 
-    if (errorCode) {
+    if (typeof data === "string") {
         res.status(400)
         .send({
             success: false,
-            error: errorCode,
+            error: data,
             data: null
         });
         return;
@@ -229,7 +229,9 @@ async function newCategory(req: Request, res: Response) {
     res.send({
         success: true,
         data: {
-            cat: req.body.name
+            id: data,
+            name: req.body.name,
+            owner: (req as any).auth.id
         }
     });
     return;

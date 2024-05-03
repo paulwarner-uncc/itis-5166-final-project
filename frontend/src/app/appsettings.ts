@@ -21,6 +21,9 @@ errorMap.set("NO_CAT_NAME", "Please provide a valid category name.");
 errorMap.set("INV_CAT_NAME", "Category names must be shorter than 25 categories.");
 errorMap.set("ER_DUP_CAT", "Category names must be unique.");
 errorMap.set("INV_CAT", "The specified category is invalid.");
+errorMap.set("INV_DATE", "The specified date is invalid.");
+errorMap.set("INV_VALUE", "The expense amount is invalid.");
+errorMap.set("INV_EXP", "The specified expense is invalid.");
 
 function convertErrorCodes(errCode: string): string {
   if (errorMap.has(errCode)) {
