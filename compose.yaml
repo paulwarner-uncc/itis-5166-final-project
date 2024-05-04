@@ -6,20 +6,24 @@ services:
   database:
     image: mariadb:11.3.2
     volumes:
-      # TODO: use volume once database schema is finalized
-      #- database:/var/lib/mysql:rw
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - database:/var/lib/mysql:rw
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=veryinsecurepassword
       - MYSQL_DATABASE=budgets
       - MYSQL_USER=service
       - MYSQL_PASSWORD=alsoveryinsecurepassword
-    #expose:
-    #  - 3306
-    # DEBUG: don't publish ports to host in prod, only while testing
-    ports:
+    expose:
       - 3306
+  dbinit:
+    build: dbinit
+    environment:
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_USER=service
+      - DB_PASS=alsoveryinsecurepassword
+      - DB_DATABASE=budgets
   backend:
     build: backend
     environment:
