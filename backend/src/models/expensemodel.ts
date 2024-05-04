@@ -1,8 +1,9 @@
 import { RowDataPacket } from "mysql2";
-import { connection } from "./dbconfig.js";
+import { getConnection } from "./dbconfig.js";
 
 async function upsertExpense(category: number, owner: number, year: number, month: number,
                              value: number): Promise<number|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "INSERT INTO expenses(category, owner, year, month, value) VALUE (?, ?, ?, ?, ?)" +
@@ -17,6 +18,7 @@ async function upsertExpense(category: number, owner: number, year: number, mont
 }
 
 async function getExpenses(owner: number): Promise<RowDataPacket[]|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute("SELECT * FROM expenses WHERE owner = ?",
             [owner]);
@@ -28,6 +30,7 @@ async function getExpenses(owner: number): Promise<RowDataPacket[]|string> {
 }
 
 async function getExpense(owner: number, id: number): Promise<RowDataPacket[]|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "SELECT * FROM expenses WHERE owner = ? AND id = ?",
@@ -41,6 +44,7 @@ async function getExpense(owner: number, id: number): Promise<RowDataPacket[]|st
 }
 
 async function getExpensesByDate(owner: number, year: number, month?: number): Promise<RowDataPacket[]|string> {
+    const connection = await getConnection();
     try {
         let data: RowDataPacket[];
         if (typeof month === "number") {
@@ -61,6 +65,7 @@ async function getExpensesByDate(owner: number, year: number, month?: number): P
 }
 
 async function getExpensesByCategory(owner: number, category: number): Promise<RowDataPacket[]|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "SELECT * FROM expenses WHERE owner = ? AND category = ?",
@@ -74,6 +79,7 @@ async function getExpensesByCategory(owner: number, category: number): Promise<R
 }
 
 async function updateValue(owner: number, id: number, value: number): Promise<number|string> {
+    const connection = await getConnection();
     try {
         const [result, ] = await connection.execute(
             "UPDATE expenses SET value = ? WHERE owner = ? AND id = ?",
@@ -87,6 +93,7 @@ async function updateValue(owner: number, id: number, value: number): Promise<nu
 }
 
 async function deleteExpense(owner: number, id: number): Promise<number|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "DELETE FROM expenses WHERE owner = ? AND id = ?", [owner, id]);

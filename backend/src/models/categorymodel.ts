@@ -1,7 +1,8 @@
 import { RowDataPacket } from "mysql2";
-import { connection } from "./dbconfig.js";
+import { getConnection } from "./dbconfig.js";
 
 async function createCategory(name: string, owner: number): Promise<string|number> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute("INSERT INTO categories(name, owner) VALUE (?, ?)",
             [name, owner]);
@@ -18,6 +19,7 @@ async function createCategory(name: string, owner: number): Promise<string|numbe
 
 // Retrieve the specified category by id. If no id was specified, return all categories.
 async function getCategory(owner: number, id?: number): Promise<RowDataPacket[]|string>{
+    const connection = await getConnection();
     if (id === undefined) {
         try {
             const [result,] = await connection.execute("SELECT * FROM categories WHERE owner=?",
@@ -40,6 +42,7 @@ async function getCategory(owner: number, id?: number): Promise<RowDataPacket[]|
 }
 
 async function updateCategory(owner: number, id: number, name: string): Promise<number|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "UPDATE categories SET name = ? WHERE owner = ? AND id = ?", [name, owner, id]);
@@ -51,6 +54,7 @@ async function updateCategory(owner: number, id: number, name: string): Promise<
 }
 
 async function deleteCategory(owner: number, id: number): Promise<number|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "DELETE FROM categories WHERE owner = ? AND id = ?", [owner, id]);

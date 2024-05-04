@@ -1,8 +1,9 @@
-import mysql, { RowDataPacket } from "mysql2/promise";
+import { RowDataPacket } from "mysql2/promise";
 import "dotenv/config";
-import { connection } from "./dbconfig.js";
+import { getConnection } from "./dbconfig.js";
 
 async function getUser(username: string): Promise<RowDataPacket|string> {
+    const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "SELECT * FROM users WHERE username = ? LIMIT 1", [username]);
@@ -18,6 +19,7 @@ async function getUser(username: string): Promise<RowDataPacket|string> {
 }
 
 async function createUser(username: string, hash: string): Promise<string|null> {
+    const connection = await getConnection();
     try {
         await connection.execute("INSERT INTO users(username, password) VALUE (?, ?)",
             [username, hash]);
