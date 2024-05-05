@@ -44,7 +44,7 @@ export class BudgetExpenseService {
         value: value
       }
     ).subscribe((data) => {
-      this.updateExpenses(data);
+
     });
   }
 

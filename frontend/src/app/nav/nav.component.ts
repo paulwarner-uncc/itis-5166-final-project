@@ -80,12 +80,14 @@ export class NavComponent {
   ) {
     this.authService.isAuthenticated.subscribe((val) => {
       this.isAuthed = val;
-      this.redirectAuthenticatedPages();
+      // TODO: uncomment to restore auth requirements
+      //this.redirectAuthenticatedPages();
     });
 
     this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
-        this.redirectAuthenticatedPages();
+        // TODO: uncomment to restore auth requirements
+        //this.redirectAuthenticatedPages();
       }
     });
   }

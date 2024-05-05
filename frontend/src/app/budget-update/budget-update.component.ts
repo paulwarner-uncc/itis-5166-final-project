@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Category, Expense } from '../appsettings';
 import { BudgetExpenseService } from '../budget-expense.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { BudgetCategoryService } from '../budget-category.service';
 
@@ -25,7 +25,8 @@ export class BudgetUpdateComponent implements OnInit {
   constructor(
     private expenseService: BudgetExpenseService,
     private categoryService: BudgetCategoryService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -42,10 +43,20 @@ export class BudgetUpdateComponent implements OnInit {
     });
 
     this.route.queryParamMap.subscribe(params => {
-      let year = parseInt(params.get("year") as string);
-      if (!isNaN(year)) {
-        this.year = year;
+      if (!params.has("year")) {
+        this.year = this.curDate.getFullYear();
+        return;
       }
+
+      let year = parseInt(params.get("year") as string);
+
+      // Prevent invalid years
+      if (isNaN(year) || year > this.curDate.getFullYear() || year < 0) {
+        this.router.navigate(["/update"]);
+        return;
+      }
+
+      this.year = year;
     });
 
     this.categoryService.getCategories();
@@ -60,7 +71,10 @@ export class BudgetUpdateComponent implements OnInit {
     return expense.value;
   }
 
-  updateExpenseValue(category: number, month: number) {
+  /* updateExpenseValue(category: number, month: number) {
+    this.errorMsg = null;
+    this.successMsg = null;
+
     const elem = document.getElementById(`value${month}.${category}`) as HTMLInputElement;
     const value = parseFloat(elem.value);
     if (isNaN(value)) {
@@ -68,7 +82,44 @@ export class BudgetUpdateComponent implements OnInit {
       return;
     }
 
+    this.successMsg = "Successfully updated the expense.";
+
     this.expenseService.updateExpense(category, this.year, month + 1, value);
+  } */
+
+  updateMonth(month: number) {
+    for (let category of this.categories) {
+      const elem = document.getElementById(`value${month}.${category.id}`) as HTMLInputElement;
+      const value = parseFloat(elem.value);
+      if (isNaN(value)) {
+        this.errorMsg = "Please provide a valid value.";
+        return;
+      }
+
+      this.expenseService.updateExpense(category.id, this.year, month + 1, value);
+    }
+    this.successMsg = `Successfully updated ${this.monthLookup[month]}.`;
+    this.expenseService.getExpenses();
+  }
+
+  getNextYear() {
+    this.errorMsg = null;
+    this.successMsg = null;
+
+    if (this.year < this.curDate.getFullYear()) {
+      this.year++;
+      this.expenseService.getExpenses(this.year);
+    }
+  }
+
+  getPrevYear() {
+    this.errorMsg = null;
+    this.successMsg = null;
+
+    if (this.year > 0) {
+      this.year--;
+      this.expenseService.getExpenses(this.year);
+    }
   }
 
   private getExpense(category: number, month: number, year: number): Expense|null {

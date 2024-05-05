@@ -1,14 +1,30 @@
-<h1>Expenses for {{ this.year }}</h1>
+<div class="expense-nav">
+  <div>
+    <button [disabled]="this.year <= 0" (click)="this.getPrevYear()">Prev</button>
+  </div>
+  <h1>Expenses for {{ this.year }}</h1>
+  <div>
+    <button [disabled]="this.year >= this.curDate.getFullYear()" (click)="this.getNextYear()">Next</button>
+  </div>
+</div>
+<div *ngIf="this.successMsg !== null">
+  {{ this.successMsg }}
+</div>
+<div *ngIf="this.errorMsg !== null" class="error">
+  {{ this.errorMsg }}
+</div>
 <div class="expense-holder">
   <ng-container *ngFor="let month of this.monthLookup; index as i">
     <div *ngIf="this.year < this.curDate.getFullYear() || (this.year === this.curDate.getFullYear() && i <= this.curDate.getMonth())">
-      <h2>{{ month }}</h2>
+      <div class="month-holder">
+        <h2>{{ month }}</h2>
+        <button (click)="this.updateMonth(i)">Update</button>
+      </div>
       <table>
         <tr>
           <th>Category</th>
           <th>Budget</th>
           <th>Spent</th>
-          <th></th>
         </tr>
         <tr *ngFor="let category of this.categories">
           <th>{{ category.name }}</th>
@@ -16,7 +32,6 @@
           <td>
             <input type="number" value="{{ this.getExpenseValue(category.id, i) }}" min="0" class="money" id="value{{ i }}.{{ category.id }}">
           </td>
-          <td><button (click)="this.updateExpenseValue(category.id, i)">Update</button></td>
         </tr>
       </table>
     </div>

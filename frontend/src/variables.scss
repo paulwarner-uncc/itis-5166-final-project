@@ -1,4 +1,7 @@
+@use 'sass:color';
+
 $header-bg-color:#1E2749;
 $header-txt-color:#FFFFFF;
 $body-bg-color:$header-txt-color;
 $body-txt-color:#000000;
+$button-disabled:color.adjust(darkgray, $lightness: -25%);

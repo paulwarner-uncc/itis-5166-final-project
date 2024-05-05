@@ -8,8 +8,23 @@
   gap: 0.1em;
 }
 
+.expense-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expense-nav button {
+  font-size: large;
+}
+
 .expense-holder > div {
   border: 1px solid $body-txt-color;
+}
+
+.month-holder > h2 {
+  margin-bottom: 0.1em;
 }
 
 .money {
@@ -38,6 +53,16 @@ button:hover {
   cursor: pointer;
 }
 
+button:disabled {
+  background-color: $button-disabled;
+  color: color.adjust($header-txt-color, $lightness: -5%);
+}
+
+button:disabled:hover {
+  background-color: $button-disabled;
+  cursor: default;
+}
+
 table {
   margin: auto;
 }
@@ -49,4 +74,8 @@ th, td {
 
 div {
   text-align: center;
+}
+
+.error {
+  color: red;
 }
