@@ -11,9 +11,7 @@ type HttpVerb = "get" | "post" | "patch" | "delete";
 export class AuthenticationService {
   public isAuthenticated: Subject<boolean> = new Subject<boolean>();
 
-  // TODO: replace with non-debug jwt
-  //private jwt: string|null = null;
-  private jwt: string|null = "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwidXNlcm5hbWUiOiJhIn0.Q-Do1hG5vqhGlMtbuCrCQygPC1zBQWe7KkbC4bOVRu8";
+  private jwt: string|null = null;
   private promptTimer: number|null = null;
   private logoutTimer: number|null = null;
 
@@ -139,9 +137,6 @@ export class AuthenticationService {
               window.clearTimeout(this.logoutTimer);
             }
             this.setJwt((data.data as any).jwt);
-          } else {
-            // TODO: handle errors properly
-            console.log(`ERROR: ${JSON.stringify(data)}`);
           }
       });
     }

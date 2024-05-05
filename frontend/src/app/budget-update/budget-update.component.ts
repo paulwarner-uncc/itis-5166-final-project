@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AppSettings, Category, Expense, monthLookup } from '../appsettings';
 import { BudgetExpenseService } from '../budget-expense.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 import { BudgetCategoryService } from '../budget-category.service';
 
 @Component({
   selector: 'app-budget-update',
   standalone: true,
-  imports: [NgFor, NgIf],
+  imports: [NgFor, NgIf, RouterLink, RouterLinkActive],
   templateUrl: './budget-update.component.html',
   styleUrl: './budget-update.component.scss'
 })
@@ -70,22 +70,6 @@ export class BudgetUpdateComponent implements OnInit {
     return expense.value;
   }
 
-  /* updateExpenseValue(category: number, month: number) {
-    this.errorMsg = null;
-    this.successMsg = null;
-
-    const elem = document.getElementById(`value${month}.${category}`) as HTMLInputElement;
-    const value = parseFloat(elem.value);
-    if (isNaN(value)) {
-      this.errorMsg = "Please provide a valid value.";
-      return;
-    }
-
-    this.successMsg = "Successfully updated the expense.";
-
-    this.expenseService.updateExpense(category, this.year, month + 1, value);
-  } */
-
   updateMonth(month: number) {
     for (let category of this.categories) {
       const elem = document.getElementById(`value${month}.${category.id}`) as HTMLInputElement;
@@ -119,6 +103,11 @@ export class BudgetUpdateComponent implements OnInit {
       this.year--;
       this.expenseService.getExpenses(this.year);
     }
+  }
+
+  hasValidData() {
+    return this.categories !== null &&
+           this.categories.length > 0;
   }
 
   private getExpense(category: number, month: number, year: number): Expense|null {

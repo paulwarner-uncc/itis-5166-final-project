@@ -7,13 +7,18 @@
     <button [disabled]="this.year >= this.curDate.getFullYear()" (click)="this.getNextYear()">Next</button>
   </div>
 </div>
+<div *ngIf="!hasValidData()">
+  No data is available! Please set up
+  <a routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">categories</a>
+  first.
+</div>
 <div *ngIf="this.successMsg !== null">
   {{ this.successMsg }}
 </div>
 <div *ngIf="this.errorMsg !== null" class="error">
   {{ this.errorMsg }}
 </div>
-<div class="expense-holder">
+<div class="expense-holder" *ngIf="hasValidData()">
   <ng-container *ngFor="let month of this.monthLookup; index as i">
     <div *ngIf="this.year < this.curDate.getFullYear() || (this.year === this.curDate.getFullYear() && i <= this.curDate.getMonth())">
       <div class="month-holder">

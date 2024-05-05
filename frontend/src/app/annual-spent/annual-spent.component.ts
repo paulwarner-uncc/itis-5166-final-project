@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { BudgetComponent } from '../budget/budget.component';
 import { shortMonthLookup } from '../appsettings';
@@ -10,7 +10,7 @@ import { shortMonthLookup } from '../appsettings';
   templateUrl: './annual-spent.component.html',
   styleUrl: './annual-spent.component.scss'
 })
-export class AnnualSpentComponent implements OnInit {
+export class AnnualSpentComponent implements OnInit, OnDestroy {
   public chart: Chart<"line", number[], string>|null = null;
   public costs: number[]|null = null;
 
@@ -32,6 +32,13 @@ export class AnnualSpentComponent implements OnInit {
 
       this.updateChart();
     });
+
+    this.parent.getExpenses(this.parent.year, this.parent.month, true);
+  }
+
+  ngOnDestroy(): void {
+    this.chart = null;
+    this.parent.annualExpenses.unsubscribe();
   }
 
   private createChart() {

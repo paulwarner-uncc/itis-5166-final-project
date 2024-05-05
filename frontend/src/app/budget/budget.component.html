@@ -1,13 +1,20 @@
 <h1>Dashboard</h1>
 <div class="chart-container">
-  <label for="monthly-spent-date">Date for report:&nbsp;</label>
-  <!-- Allow dates from year 0 until current day. The code is very long, but it does what needs to be done -->
-  <input name="monthly-spent-date" type="date" id="monthly-spent-date"
+  <label for="monthly-spent-date" *ngIf="hasValidData()">Date for report:&nbsp;</label>
+  <!-- Allow dates from year 0 until current day. It's very long, but it does what needs to be done -->
+  <input name="monthly-spent-date" type="date" id="monthly-spent-date" (hidden)="!hasValidData()"
     value="{{ this.year }}-{{ this.month.toString().padStart(2, '0') }}-01"
     min="0000-01-01"
     max="{{ this.curDate.getFullYear() }}-{{ (this.curDate.getMonth() + 1).toString().padStart(2, '0') }}-{{ this.curDate.getDate().toString().padStart(2, '0') }}"
   >
-  <app-monthly-spent></app-monthly-spent>
-  <app-monthly-budget></app-monthly-budget>
-  <app-annual-spent></app-annual-spent>
+  <div *ngIf="!hasValidData()">
+    No data is available! Please set up
+    <a routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">categories</a>
+    and
+    <a routerLink="/update" routerLinkActive="active" ariaCurrentWhenActive="page">expenses</a>
+    first.
+  </div>
+  <app-monthly-spent *ngIf="hasValidData()"></app-monthly-spent>
+  <app-monthly-budget *ngIf="hasValidData()"></app-monthly-budget>
+  <app-annual-spent *ngIf="hasValidData()"></app-annual-spent>
 </div>

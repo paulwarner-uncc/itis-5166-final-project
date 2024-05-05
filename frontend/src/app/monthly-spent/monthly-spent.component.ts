@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Chart } from 'chart.js/auto';
 import { Category, Expense, monthLookup, shortMonthLookup } from '../appsettings';
 import { NgIf } from '@angular/common';
@@ -12,7 +12,7 @@ import { BudgetComponent } from '../budget/budget.component';
   templateUrl: './monthly-spent.component.html',
   styleUrl: './monthly-spent.component.scss'
 })
-export class MonthlySpentComponent implements OnInit {
+export class MonthlySpentComponent implements OnInit, OnDestroy {
   public chart: Chart<"bar", number[], string>|null = null;
   public categories: Category[]|null = null;
   public expenses: Expense[]|null = null;
@@ -47,6 +47,15 @@ export class MonthlySpentComponent implements OnInit {
         this.updateChart();
       }
     });
+
+    this.parent.getCategories(true);
+    this.parent.getExpenses(this.parent.year, this.parent.month, true);
+  }
+
+  ngOnDestroy(): void {
+    this.chart = null;
+    this.parent.categories.unsubscribe();
+    this.parent.monthlyExpenses.unsubscribe();
   }
 
   createChart() {
@@ -106,10 +115,6 @@ export class MonthlySpentComponent implements OnInit {
     if (this.categories === null || this.expenses === null) {
       return;
     }
-
-    const cats = this.categories.sort((cat1, cat2) => {
-      return cat1.id - cat2.id;
-    });
 
     // Reset labels and first dataset
     this.chart.data.labels = [];

@@ -2,9 +2,8 @@
   <ul>
     <ng-container *ngFor="let route of navLinks">
       <!-- Determine if the entry should appear given the current state of authentication -->
-      <!-- TODO: remove true to hide extra nav -->
       <li *ngIf="(route.requiresAuth && this.isAuthed) || (route.requiresNoAuth && !this.isAuthed) ||
-        (!route.requiresAuth && !route.requiresNoAuth) || true">
+        (!route.requiresAuth && !route.requiresNoAuth)">
         <a routerLink="{{route.route}}" routerLinkActive="active" ariaCurrentWhenActive="page">
           {{route.displayName}}
         </a>
