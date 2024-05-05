@@ -14,7 +14,7 @@ import { convertErrorCodes } from '../appsettings';
 })
 export class LoginComponent {
   loginForm = new FormGroup({
-    username: new FormControl('', Validators.required),
+    username: new FormControl('', [Validators.required, Validators.maxLength(25)]),
     password: new FormControl('', Validators.required)
   });
   newAccount = false;
@@ -48,9 +48,8 @@ export class LoginComponent {
     );
 
     resp.subscribe(data => {
-      //console.log(data);
       if (data.success) {
-        //this.router.navigate(["/dashboard"]);
+        this.router.navigate(["/dashboard"]);
       } else {
         this.serverError = convertErrorCodes(data.error as string);
       }

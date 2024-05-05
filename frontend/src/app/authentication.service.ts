@@ -3,15 +3,19 @@ import { HttpClient } from '@angular/common/http';
 import { ApiResponse, AppSettings } from './appsettings';
 import { Observable, Subject, catchError } from 'rxjs';
 
+type HttpVerb = "get" | "post" | "patch" | "delete";
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
   public isAuthenticated: Subject<boolean> = new Subject<boolean>();
 
-  // TODO: think about moving the jwt to local storage
   private jwt: string|null = null;
+  private promptTimer: number|null = null;
   private logoutTimer: number|null = null;
+
+  constructor(private http: HttpClient) { }
 
   login(username: string, password: string): Observable<ApiResponse> {
     let resp = this.http.post<ApiResponse>(
@@ -37,18 +41,23 @@ export class AuthenticationService {
     return resp.pipe(catchError(this.handleError));
   }
 
-  sentAuthorizedRequest(method: "get" | "post", url: string, body: object|undefined): Observable<ApiResponse> {
+  logout() {
+    this.setJwt(null);
+  }
+
+  sendAuthorizedRequest(method: HttpVerb, url: string, body?: object): Observable<ApiResponse> {
+    let response: Observable<ApiResponse>;
     if (method === "get") {
-      return this.http.get<ApiResponse>(
+      response = this.http.get<ApiResponse>(
         url,
         {
           headers: {
             "Authorization": `Bearer ${this.jwt}`
           }
         }
-      ).pipe(catchError(this.handleError));
-    } else {
-      return this.http.post<ApiResponse>(
+      );
+    } else if (method === "post") {
+      response = this.http.post<ApiResponse>(
         url,
         body,
         {
@@ -56,8 +65,32 @@ export class AuthenticationService {
             "Authorization": `Bearer ${this.jwt}`
           }
         }
-      ).pipe(catchError(this.handleError));
+      );
+    } else if (method === "patch") {
+      response = this.http.patch<ApiResponse>(
+        url,
+        body,
+        {
+          headers: {
+            "Authorization": `Bearer ${this.jwt}`
+          }
+        }
+      );
+    } else if (method === "delete") {
+      response = this.http.delete<ApiResponse>(
+        url,
+        {
+          headers: {
+            "Authorization": `Bearer ${this.jwt}`
+          }
+        }
+      );
     }
+    else {
+      response = null as any;
+    }
+
+    return response.pipe(catchError(this.handleError));;
   }
 
   private setJwt(jwt: string|null) {
@@ -68,6 +101,14 @@ export class AuthenticationService {
 
     // If the jwt is getting unset, no need to set timeouts to prompt for renewal, just return
     if (jwt === null) {
+      // Clear any remaining timers if necessary
+      if (this.promptTimer !== null) {
+        window.clearTimeout(this.promptTimer);
+      }
+      if (this.logoutTimer !== null) {
+        window.clearTimeout(this.logoutTimer);
+      }
+
       return;
     }
 
@@ -79,9 +120,9 @@ export class AuthenticationService {
     }, 60 * 1000);
 
     // Set timeout to prompt to refresh token
-    window.setTimeout(() => {
+    this.promptTimer = window.setTimeout(() => {
       this.promptRefresh();
-    }, 5 * 1000); // TODO: make this 40 * 1000
+    }, 40 * 1000);
   }
 
   private promptRefresh() {
@@ -91,7 +132,7 @@ export class AuthenticationService {
     }
 
     if(confirm("Your session is about to expire. Would you like to renew it?")) {
-      this.sentAuthorizedRequest("post", AppSettings.API_ENDPOINT + "/auth/refresh", {})
+      this.sendAuthorizedRequest("post", AppSettings.API_ENDPOINT + "/auth/refresh", {})
         .subscribe(data => {
           if (data.success) {
             if (this.logoutTimer != null) {
@@ -112,6 +153,4 @@ export class AuthenticationService {
       subscriber.complete();
     });
   }
-
-  constructor(private http: HttpClient) { }
 }

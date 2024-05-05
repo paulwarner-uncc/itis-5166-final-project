@@ -1,1 +1,24 @@
-<p>budget-update works!</p>
+<h1>Expenses for {{ this.year }}</h1>
+<div class="expense-holder">
+  <ng-container *ngFor="let month of this.monthLookup; index as i">
+    <div *ngIf="this.year < this.curDate.getFullYear() || (this.year === this.curDate.getFullYear() && i <= this.curDate.getMonth())">
+      <h2>{{ month }}</h2>
+      <table>
+        <tr>
+          <th>Category</th>
+          <th>Budget</th>
+          <th>Spent</th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let category of this.categories">
+          <th>{{ category.name }}</th>
+          <td class="money">{{ category.value }}</td>
+          <td>
+            <input type="number" value="{{ this.getExpenseValue(category.id, i) }}" min="0" class="money" id="value{{ i }}.{{ category.id }}">
+          </td>
+          <td><button (click)="this.updateExpenseValue(category.id, i)">Update</button></td>
+        </tr>
+      </table>
+    </div>
+  </ng-container>
+</div>

@@ -1,4 +1,5 @@
 // Via https://stackoverflow.com/a/34988045
+// TODO: change this to not include host once using nginx
 class AppSettings {
   public static API_ENDPOINT = "http://localhost:3000/api";
 }
@@ -7,6 +8,22 @@ type ApiResponse = {
   success: boolean,
   error?: string,
   data: object|null
+};
+
+type Category = {
+  id: number,
+  name: string,
+  owner: number,
+  value: number
+};
+
+type Expense = {
+  id: number,
+  category: number,
+  owner: number,
+  year: number,
+  month: number,
+  value: number
 };
 
 const errorMap = new Map<string, string>();
@@ -24,6 +41,7 @@ errorMap.set("INV_CAT", "The specified category is invalid.");
 errorMap.set("INV_DATE", "The specified date is invalid.");
 errorMap.set("INV_VALUE", "The expense amount is invalid.");
 errorMap.set("INV_EXP", "The specified expense is invalid.");
+errorMap.set("NO_CAT_VALUE", "Please specify a category value.");
 
 function convertErrorCodes(errCode: string): string {
   if (errorMap.has(errCode)) {
@@ -34,4 +52,4 @@ function convertErrorCodes(errCode: string): string {
   return errCode;
 }
 
-export { AppSettings, ApiResponse, convertErrorCodes };
+export { AppSettings, ApiResponse, convertErrorCodes, Category, Expense };

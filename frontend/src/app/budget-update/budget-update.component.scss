@@ -1,0 +1,52 @@
+@use 'sass:color';
+@import "../../variables.scss";
+
+.expense-holder {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.1em;
+}
+
+.expense-holder > div {
+  border: 1px solid $body-txt-color;
+}
+
+.money {
+  width: 5em;
+  text-align: right;
+}
+
+td.money {
+  padding-right: 1em;
+  width: 2em;
+  min-width: 3em;
+}
+
+button {
+  font-weight: bold;
+  font-size: small;
+  padding: 0.5em 0.5em;
+  background-color: color.adjust($header-bg-color, $lightness: 5%);
+  color: $header-txt-color;
+  border: none;
+  border-radius: 0.5em;
+}
+
+button:hover {
+  background-color: color.adjust($header-bg-color, $lightness: 0%);
+  cursor: pointer;
+}
+
+table {
+  margin: auto;
+}
+
+th, td {
+  text-align: left;
+  min-width: 5em;
+}
+
+div {
+  text-align: center;
+}

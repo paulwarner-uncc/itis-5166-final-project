@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class SignupComponent {
   signupForm = new FormGroup({
-    username: new FormControl('', Validators.required), // TODO: add 25 character limit
+    username: new FormControl('', [Validators.required, Validators.maxLength(25)]),
     password: new FormControl('', Validators.required),
     rptpassword: new FormControl('', Validators.required)
   }, { validators: this.validatePassword() });

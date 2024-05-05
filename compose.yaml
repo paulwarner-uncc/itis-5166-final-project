@@ -7,7 +7,6 @@ services:
     image: mariadb:11.3.2
     volumes:
       - database:/var/lib/mysql:rw
-      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     restart: always
     environment:
       - MYSQL_ROOT_PASSWORD=veryinsecurepassword

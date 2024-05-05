@@ -1,8 +1,5 @@
 USE budgets;
 
--- TODO: modify default user permissions to be minimal
--- TODO: add cascade deletes
-
 CREATE TABLE users (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     username VARCHAR(100) UNIQUE NOT NULL,
@@ -14,6 +11,7 @@ CREATE TABLE categories (
 	id		INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name	VARCHAR(100) NOT NULL,
     owner	INT UNSIGNED NOT NULL,
+    value	FLOAT UNSIGNED NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (owner) REFERENCES users(id) ON DELETE CASCADE,
     UNIQUE (name, owner)

@@ -1,9 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { expressjwt } from "express-jwt";
-import jwt from "jsonwebtoken"; // DEBUG
 
-// TODO: handle revocation
-// TODO: handle expiration
 const jwtMW = expressjwt({
     secret: Buffer.from(process.env.WEB_JWT_SECRET as string, "base64"),
     algorithms: ["HS256"]

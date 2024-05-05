@@ -1,11 +1,13 @@
 import { RowDataPacket } from "mysql2";
 import { getConnection } from "./dbconfig.js";
 
-async function createCategory(name: string, owner: number): Promise<string|number> {
+async function createCategory(name: string, owner: number, value: number): Promise<string|number> {
     const connection = await getConnection();
     try {
-        const [result,] = await connection.execute("INSERT INTO categories(name, owner) VALUE (?, ?)",
-            [name, owner]);
+        const [result,] = await connection.execute(
+            "INSERT INTO categories(name, owner, value) VALUE (?, ?, ?)",
+            [name, owner, value]
+        );
 
         return (result as any).insertId;
     } catch (err) {
@@ -41,11 +43,23 @@ async function getCategory(owner: number, id?: number): Promise<RowDataPacket[]|
     }
 }
 
-async function updateCategory(owner: number, id: number, name: string): Promise<number|string> {
+async function updateCategoryName(owner: number, id: number, name: string): Promise<number|string> {
     const connection = await getConnection();
     try {
         const [result,] = await connection.execute(
             "UPDATE categories SET name = ? WHERE owner = ? AND id = ?", [name, owner, id]);
+
+        return (result as any).affectedRows as number;
+    } catch (err) {
+        return (err as any).code;
+    }
+}
+
+async function updateCategoryValue(owner: number, id: number, value: number): Promise<number|string> {
+    const connection = await getConnection();
+    try {
+        const [result,] = await connection.execute(
+            "UPDATE categories SET value = ? WHERE owner = ? AND id = ?", [value, owner, id]);
 
         return (result as any).affectedRows as number;
     } catch (err) {
@@ -65,4 +79,4 @@ async function deleteCategory(owner: number, id: number): Promise<number|string>
     }
 }
 
-export { createCategory, getCategory, updateCategory, deleteCategory };
+export { createCategory, getCategory, updateCategoryName, updateCategoryValue, deleteCategory };

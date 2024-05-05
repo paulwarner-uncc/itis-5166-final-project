@@ -1,0 +1,53 @@
+@use 'sass:color';
+@import "../../variables.scss";
+
+table {
+  margin: auto;
+}
+
+th, td {
+  text-align: left;
+  min-width: 5em;
+}
+
+tr td:last-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.1em;
+}
+
+input {
+  width: 15em;
+}
+
+input.money {
+  width: 5em;
+  text-align: right;
+}
+
+button {
+  font-weight: bold;
+  font-size: small;
+  padding: 0.5em 0.5em;
+  background-color: color.adjust($header-bg-color, $lightness: 5%);
+  color: $header-txt-color;
+  border: none;
+  border-radius: 0.5em;
+}
+
+button:hover {
+  background-color: color.adjust($header-bg-color, $lightness: 0%);
+  cursor: pointer;
+}
+
+div {
+  text-align: center;
+}
+
+.error {
+  color: red;
+}
+
+#createButton {
+  width: 100%;
+}

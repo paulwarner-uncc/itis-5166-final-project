@@ -4,7 +4,6 @@ import "dotenv/config";
 import { createUser, getUser } from "../models/authmodel.js";
 import jwt from "jsonwebtoken";
 
-// TODO: add client-side code to translate error messages into human readable messages
 async function loginRequest(req: Request, res: Response) {
 
     // Verify that the username and password are present and are strings

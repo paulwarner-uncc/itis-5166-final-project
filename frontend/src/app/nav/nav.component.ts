@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { NgFor, NgIf } from '@angular/common';
-import { Subscription } from 'rxjs';
 
 type RouteInfo = {
   route: string,            // The path associated with the route
@@ -51,10 +50,29 @@ export class NavComponent {
       requiresAuth: true,
       requiresNoAuth: false,
       redirectPath: "/"
+    },
+    {
+      route: "/configure",
+      displayName: "Configure",
+      requiresAuth: true,
+      requiresNoAuth: false,
+      redirectPath: "/"
+    },
+    {
+      route: "/update",
+      displayName: "Expenses",
+      requiresAuth: true,
+      requiresNoAuth: false,
+      redirectPath: "/"
+    },
+    {
+      route: "/logout",
+      displayName: "Log Out",
+      requiresAuth: true,
+      requiresNoAuth: false,
+      redirectPath: "/"
     }
   ];
-
-  private initialPageSub: Subscription|null = null;
 
   constructor (
     private authService: AuthenticationService,
@@ -65,12 +83,8 @@ export class NavComponent {
       this.redirectAuthenticatedPages();
     });
 
-    this.initialPageSub = this.router.events.subscribe((val) => {
+    this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
-        // Unsubscribe to router events after the first NavigationEnd
-        // This ensures that the first call to redirectAuthenticatedPages uses the correct path
-        this.initialPageSub?.unsubscribe();
-
         this.redirectAuthenticatedPages();
       }
     });
@@ -91,10 +105,6 @@ export class NavComponent {
     // If not, navigate away to the set redirection page
     if ((routeInfo.requiresAuth && !this.isAuthed) || (routeInfo.requiresNoAuth && this.isAuthed)) {
       this.router.navigate([routeInfo.redirectPath]);
-    } else {
-      console.log(this.router.url);
-      console.log(routeInfo);
-      console.log(this.isAuthed);
     }
   }
 }

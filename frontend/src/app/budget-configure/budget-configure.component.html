@@ -1,1 +1,39 @@
-<p>budget-configure works!</p>
+<h1>
+  Categories
+</h1>
+<table>
+  <tr>
+    <th>Category</th>
+    <th>Budget</th>
+    <th></th>
+  </tr>
+  <tr *ngFor="let category of categories">
+    <th>
+      {{ category.name }}
+    </th>
+    <td>
+      <input type="number" value="{{ category.value }}" min="0" class="money" id="value{{ category.id }}">
+    </td>
+    <td>
+      <button (click)="this.updateCategory(category.id)">Update</button>
+      <button (click)="this.deleteCategory(category.id)">Delete</button>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      <input type="text" maxlength="25" id="newName">
+    </th>
+    <td>
+      <input type="number" value="0" min="0" id="newValue" class="money">
+    </td>
+    <td>
+      <button (click)="this.createCategory()" id="createButton">Create</button>
+    </td>
+  </tr>
+</table>
+<div *ngIf="this.successMsg">
+ {{ this.successMsg }}
+</div>
+<div *ngIf="this.errorMsg" class="error">
+  {{ this.errorMsg }}
+</div>
