@@ -14,7 +14,7 @@ export class BudgetExpenseService {
     private authService: AuthenticationService
   ) { }
 
-  getExpenses(year?: number) {
+  getExpenses(year?: number, month?: number) {
     if (year === undefined) {
       this.authService.sendAuthorizedRequest(
         "get",
@@ -25,9 +25,19 @@ export class BudgetExpenseService {
       return;
     }
 
+    if (month === undefined) {
+      this.authService.sendAuthorizedRequest(
+        "get",
+        AppSettings.API_ENDPOINT + `/budget/expense/date/${year}/all`
+      ).subscribe((data) => {
+        this.pushExpenses(data);
+      });
+      return;
+    }
+
     this.authService.sendAuthorizedRequest(
       "get",
-      AppSettings.API_ENDPOINT + `/budget/expense/date/${year}/all`
+      AppSettings.API_ENDPOINT + `/budget/expense/date/${year}/${month}/all`
     ).subscribe((data) => {
       this.pushExpenses(data);
     });

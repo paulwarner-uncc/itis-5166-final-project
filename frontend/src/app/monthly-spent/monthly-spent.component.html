@@ -1,0 +1,6 @@
+<div class="chart-container">
+  <h2>Expenses for {{ this.monthLookup[this.parent.month - 1] }} {{ this.parent.year }}</h2>
+  <canvas [hidden]="this.categories !== null && this.expenses !== null" id="monthly-spent">
+    {{ chart }}
+  </canvas>
+</div>

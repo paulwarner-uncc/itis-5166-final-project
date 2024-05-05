@@ -116,9 +116,7 @@ export class AuthenticationService {
 
     // Set timeout to remove token due to expiration
     this.logoutTimer = window.setTimeout(() => {
-      //this.jwt = null;
       this.setJwt(null);
-      console.log("nulling");
     }, 60 * 1000);
 
     // Set timeout to prompt to refresh token

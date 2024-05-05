@@ -52,4 +52,10 @@ function convertErrorCodes(errCode: string): string {
   return errCode;
 }
 
-export { AppSettings, ApiResponse, convertErrorCodes, Category, Expense };
+const monthLookup = ["January", "February", "March", "April", "May", "June", "July", "August",
+    "September", "October", "November", "December"];
+
+const shortMonthLookup = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+  "Nov", "Dec"]
+
+export { AppSettings, ApiResponse, convertErrorCodes, Category, Expense, monthLookup, shortMonthLookup };

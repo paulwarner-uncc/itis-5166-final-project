@@ -1,0 +1,6 @@
+<div class="chart-container">
+  <h2>Spending by Month for {{ this.parent.year }}</h2>
+  <canvas [hidden]="this.costs !== null" id="annual-spent">
+    {{ chart }}
+  </canvas>
+</div>

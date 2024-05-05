@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Category, Expense } from '../appsettings';
+import { AppSettings, Category, Expense, monthLookup } from '../appsettings';
 import { BudgetExpenseService } from '../budget-expense.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
@@ -19,8 +19,7 @@ export class BudgetUpdateComponent implements OnInit {
   public successMsg: string|null = null;
   public curDate: Date = new Date();
   public year: number = this.curDate.getFullYear();
-  public monthLookup = ["January", "February", "March", "April", "May", "June", "July", "August",
-    "September", "October", "November", "December"];
+  public monthLookup = monthLookup;
 
   constructor(
     private expenseService: BudgetExpenseService,
@@ -98,7 +97,7 @@ export class BudgetUpdateComponent implements OnInit {
 
       this.expenseService.updateExpense(category.id, this.year, month + 1, value);
     }
-    this.successMsg = `Successfully updated ${this.monthLookup[month]}.`;
+    this.successMsg = `Successfully updated ${monthLookup[month]}.`;
     this.expenseService.getExpenses();
   }
 

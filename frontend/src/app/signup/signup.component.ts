@@ -32,8 +32,6 @@ export class SignupComponent {
     );
 
     resp.subscribe(data => {
-      console.log(data);
-
       if (data.success) {
         this.router.navigate(["/login"], {
           queryParams: {
