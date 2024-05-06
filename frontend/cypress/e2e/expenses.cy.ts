@@ -30,7 +30,7 @@ describe("Testing expenses", () => {
     cy.contains("Create").click();
   });
 
-  it("Enter an expense", () => {
+  beforeEach(() => {
     // Log in
     cy.visit("/");
     cy.contains("Log In").click();
@@ -38,8 +38,11 @@ describe("Testing expenses", () => {
     cy.get("#password").type(password);
     cy.get("button").click();
 
-    // Enter and save an expense
+    // Navigate to the expense page
     cy.contains("Expenses").click();
+  });
+
+  it("Enter an expense", () => {
     cy.contains(catName).next().next().clear().type(expValue);
     cy.contains(expMonth).next().click();
 
@@ -52,15 +55,6 @@ describe("Testing expenses", () => {
   });
 
   it("Update an expense", () => {
-    // Log in
-    cy.visit("/");
-    cy.contains("Log In").click();
-    cy.get("#username").type(username);
-    cy.get("#password").type(password);
-    cy.get("button").click();
-
-    // Update the expense
-    cy.contains("Expenses").click();
     let newValue = (Math.random() + 1).toString();
     cy.contains(catName).next().next().filter("td").children().filter("input").clear()
       .type(newValue);
@@ -76,15 +70,6 @@ describe("Testing expenses", () => {
   });
 
   it("Change year", () => {
-    // Log in
-    cy.visit("/");
-    cy.contains("Log In").click();
-    cy.get("#username").type(username);
-    cy.get("#password").type(password);
-    cy.get("button").click();
-
-    // Check that the current year is used
-    cy.contains("Expenses").click();
     cy.contains(`Expenses for ${curDate.getFullYear().toString()}`);
 
     // Navigate back

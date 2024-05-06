@@ -4,8 +4,8 @@ describe("Testing categories", () => {
   const catName = Math.random().toString().substring(2);
   let catValue = (Math.random() + 1).toString();
 
-  // Create a testing account
-  it("Sign up", () => {
+  // Create testing account
+  before(() => {
     cy.visit("/");
     cy.contains("Sign Up").click();
     cy.get("#username").type(username);
@@ -13,31 +13,25 @@ describe("Testing categories", () => {
     cy.get("#rptpassword").type(password);
     cy.get("button").click();
 
-    // Redirect to login page
+    // Test redirect to login page
     cy.contains("Log In to Personal Budget");
   });
 
-  // Log in to the testing account
-  it("Log in", () => {
+  beforeEach(() => {
     cy.visit("/");
     cy.contains("Log In").click();
     cy.get("#username").type(username);
     cy.get("#password").type(password);
     cy.get("button").click();
 
-    // Redirect to home page
+    // Test redirect to dashboard
     cy.contains("Dashboard");
+
+    // Redirect to configuration page
+    cy.contains("Configure").click();
   });
 
   it("Create a category", () => {
-    // Log in
-    cy.visit("/login");
-    cy.get("#username").type(username);
-    cy.get("#password").type(password);
-    cy.get("button").click();
-
-    // Create the category
-    cy.contains("Configure").click();
     cy.get("#newName").type(catName);
     cy.get("#newValue").clear().type(catValue);
     cy.contains("Create").click();
@@ -50,14 +44,6 @@ describe("Testing categories", () => {
   });
 
   it("Update category", () => {
-    // Log in
-    cy.visit("/login");
-    cy.get("#username").type(username);
-    cy.get("#password").type(password);
-    cy.get("button").click();
-
-    // Enter and save a new value
-    cy.contains("Configure").click();
     let newValue = (Math.random() + 1).toString();
     cy.get("tr:nth-child(2) input").clear().type(newValue);
     catValue = newValue;
@@ -73,14 +59,6 @@ describe("Testing categories", () => {
   });
 
   it("Delete category", () => {
-    // Log in
-    cy.visit("/login");
-    cy.get("#username").type(username);
-    cy.get("#password").type(password);
-    cy.get("button").click();
-
-    // Delete the expense
-    cy.contains("Configure").click();
     cy.contains("Delete").click();
 
     // Check if the category no longer exists
