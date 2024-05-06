@@ -85,8 +85,6 @@ async function signupRequest(req: Request, res: Response) {
         return;
     }
 
-    // TODO: password requirements
-
     // Hash the password
     let hash = await argon2.hash(req.body.password);
     let errorCode = await createUser(req.body.username, hash);
@@ -135,7 +133,7 @@ async function refreshToken(req: Request, res: Response) {
 function signJwt(content: object): string {
     return jwt.sign(content, Buffer.from(process.env.WEB_JWT_SECRET as string, "base64"), {
         expiresIn: 60
-    });;
+    });
 }
 
 export { loginRequest, signupRequest, refreshToken };

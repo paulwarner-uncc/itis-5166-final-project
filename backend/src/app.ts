@@ -7,6 +7,8 @@ import { budgetRouter } from "./routers/budgetrouter.js";
 const app = express();
 const PORT = process.env.WEB_PORT || 3000;
 
+let listening: boolean = false;
+
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRouter);
@@ -22,6 +24,11 @@ app.use((req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Running on port ${PORT}`);
-});
+if (process.env.NODE_ENV !== "test") {
+  let server = app.listen(PORT, () => {
+    listening = true;
+    console.log(`Running on port ${PORT}`);
+  });
+}
+
+export { app };

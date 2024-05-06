@@ -1,7 +1,7 @@
 // Via https://stackoverflow.com/a/34988045
 // TODO: change this to not include host once using nginx
 class AppSettings {
-  public static API_ENDPOINT = "http://localhost:3000/api";
+  public static API_ENDPOINT = "http://192.168.1.254:3000/api";
 }
 
 type ApiResponse = {

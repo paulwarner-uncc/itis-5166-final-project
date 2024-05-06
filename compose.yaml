@@ -13,8 +13,10 @@ services:
       - MYSQL_DATABASE=budgets
       - MYSQL_USER=service
       - MYSQL_PASSWORD=alsoveryinsecurepassword
-    expose:
-      - 3306
+    #expose:
+    #  - 3306
+    ports:
+      - 3306:3306
   dbinit:
     build: dbinit
     environment:
