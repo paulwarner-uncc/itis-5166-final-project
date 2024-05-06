@@ -3,6 +3,7 @@ import "dotenv/config";
 import jsonwebtoken from "jsonwebtoken";
 import { app } from "../app.js";
 import { fail } from "assert";
+import { jwtsecret } from "../common.js";
 
 let testingServer: any;
 
@@ -72,8 +73,9 @@ describe("POST /api/auth/signup", () => {
             expect(typeof resp.data).toBe("object");
             expect(resp.data.success).toBe(true);
 
-            let token = jsonwebtoken.verify(resp.data.data.jwt,
-                Buffer.from(process.env.WEB_JWT_SECRET as string, "base64"));
+            /* let token = jsonwebtoken.verify(resp.data.data.jwt,
+                Buffer.from(process.env.WEB_JWT_SECRET as string, "base64")); */
+            let token = jsonwebtoken.verify(resp.data.data.jwt, jwtsecret);
             expect(typeof token).toBe("object");
             expect((token as any).username).toBe(username);
         } catch (err) {

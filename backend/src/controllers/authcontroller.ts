@@ -3,6 +3,7 @@ import argon2 from "argon2";
 import "dotenv/config";
 import { createUser, getUser } from "../models/authmodel.js";
 import jwt from "jsonwebtoken";
+import { jwtsecret } from "../common.js";
 
 async function loginRequest(req: Request, res: Response) {
 
@@ -131,7 +132,10 @@ async function refreshToken(req: Request, res: Response) {
 
 // Ensure all tokens are signed the same way
 function signJwt(content: object): string {
-    return jwt.sign(content, Buffer.from(process.env.WEB_JWT_SECRET as string, "base64"), {
+    /* return jwt.sign(content, Buffer.from(process.env.WEB_JWT_SECRET as string, "base64"), {
+        expiresIn: 60
+    }); */
+    return jwt.sign(content, jwtsecret, {
         expiresIn: 60
     });
 }

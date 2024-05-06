@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { jwtsecret } from "../common.js";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
 
@@ -6,7 +7,8 @@ function getHeaders() {
     const token = jwt.sign({
         "id": 1,
         "username": "a"
-    }, Buffer.from(process.env.WEB_JWT_SECRET as string, "base64"), {
+    //}, Buffer.from(process.env.WEB_JWT_SECRET as string, "base64"), {
+    }, jwtsecret, {
         expiresIn: 60
     });
     return {

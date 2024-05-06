@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# Give the db time to start, probably reimplement as a healthcheck or something
 sleep 30
 
 # Check if any tables are in the database
-if [ -z "$(echo "USE $DB_DATABASE; SHOW TABLES" | mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$DB_PASS)" ]; then
-  mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$DB_PASS $DB_DATABASE < /init.sql
+if [ -z "$(echo "USE $DB_DATABASE; SHOW TABLES" | mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$(cat $DB_PASS_FILE))" ]; then
+  mysql -h $DB_HOST -P $DB_PORT -u $DB_USER -p$(cat $DB_PASS_FILE) $DB_DATABASE < /init.sql
 fi

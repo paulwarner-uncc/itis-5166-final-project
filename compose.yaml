@@ -1,7 +1,3 @@
-# TODO: migrate secrets to be, y'know, actually secret
-# TODO: put both frontend and backend behind nginx w/ caching, compression, etc.
-# TODO: set node environ variables to prod values
-
 services:
   database:
     image: mariadb:11.3.2
@@ -9,39 +5,77 @@ services:
       - database:/var/lib/mysql:rw
     restart: always
     environment:
-      - MYSQL_ROOT_PASSWORD=veryinsecurepassword
-      - MYSQL_DATABASE=budgets
-      - MYSQL_USER=service
-      - MYSQL_PASSWORD=alsoveryinsecurepassword
-    #expose:
-    #  - 3306
-    ports:
-      - 3306:3306
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+      MYSQL_DATABASE: budgets
+      MYSQL_USER: service
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
+    expose:
+      - 3306
+    networks:
+      custom_net:
+    secrets:
+      - db_password
+      - db_root_password
   dbinit:
     build: dbinit
+    depends_on:
+      - database
     environment:
-      - DB_HOST=database
-      - DB_PORT=3306
-      - DB_USER=service
-      - DB_PASS=alsoveryinsecurepassword
-      - DB_DATABASE=budgets
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_USER: service
+      DB_PASS_FILE: /run/secrets/db_password
+      DB_DATABASE: budgets
+    networks:
+      custom_net:
+    secrets:
+      - db_password
   backend:
     build: backend
     environment:
-      - DB_HOST=database
-      - DB_PORT=3306
-      - DB_USER=service
-      - DB_PASS=alsoveryinsecurepassword
-      - DB_DATABASE=budgets
-      - WEB_PORT=3000
-      - WEB_JWT_SECRET=zkiPt13TciN3SlUil3Is1fDcbrx5IsALc2KnDiwTVuw=
-    #expose:
-    #  - 3000
-    # DEBUG: don't publish ports to host in prod, only while testing
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_USER: service
+      DB_PASS_FILE: /run/secrets/db_password
+      DB_DATABASE: budgets
+      WEB_PORT: 3000
+      WEB_JWT_SECRET_FILE: /run/secrets/jwt_secret
+    expose:
+      - 3000
+    networks:
+      custom_net:
+        ipv4_address: 10.5.0.5
+    secrets:
+      - db_password
+      - jwt_secret
+  frontend:
+    build: frontend
+    depends_on:
+      - backend
     ports:
-      - 3000:3000
-  client:
-    build: dev
+      - 8080:80
+    networks:
+      custom_net:
+  #client:
+  #  build: dev
+  #  networks:
+  #    custom_net:
 
 volumes:
   database:
+
+networks:
+  custom_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  db_root_password:
+    file: ./secrets/db_root_password.txt
+  jwt_secret:
+    file: ./secrets/jwt_secret.txt
