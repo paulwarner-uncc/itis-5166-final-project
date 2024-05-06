@@ -6,12 +6,12 @@
   </div>
   <div>
     <label for="password">Password</label>
-    <input formControlName="password" id="password" type="password" required>
+    <input formControlName="password" id="password" type="password" required aria-errormessage="loginError">
   </div>
   <div>
-    <button type="submit" [disabled]="!loginForm.valid">Log In</button>
+    <button tabindex="0" type="submit" [disabled]="!loginForm.valid">Log In</button>
   </div>
-  <div *ngIf="this.serverError" class="error">
+  <div *ngIf="this.serverError" class="error" id="loginError">
     {{ this.serverError }}
   </div>
   <div *ngIf="this.newAccount">

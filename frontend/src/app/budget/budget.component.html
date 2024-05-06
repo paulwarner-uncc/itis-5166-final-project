@@ -7,14 +7,20 @@
     min="0000-01-01"
     max="{{ this.curDate.getFullYear() }}-{{ (this.curDate.getMonth() + 1).toString().padStart(2, '0') }}-{{ this.curDate.getDate().toString().padStart(2, '0') }}"
   >
-  <div *ngIf="!hasValidData()">
+  <section *ngIf="!hasValidData()">
     No data is available! Please set up
     <a routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">categories</a>
     and
     <a routerLink="/update" routerLinkActive="active" ariaCurrentWhenActive="page">expenses</a>
     first.
-  </div>
-  <app-monthly-spent *ngIf="hasValidData()"></app-monthly-spent>
-  <app-monthly-budget *ngIf="hasValidData()"></app-monthly-budget>
-  <app-annual-spent *ngIf="hasValidData()"></app-annual-spent>
+  </section>
+  <section *ngIf="hasValidData()" tabindex="0">
+    <app-monthly-spent></app-monthly-spent>
+  </section>
+  <section *ngIf="hasValidData()" tabindex="0">
+    <app-monthly-budget></app-monthly-budget>
+  </section>
+  <section *ngIf="hasValidData()" tabindex="0">
+    <app-annual-spent></app-annual-spent>
+  </section>
 </div>

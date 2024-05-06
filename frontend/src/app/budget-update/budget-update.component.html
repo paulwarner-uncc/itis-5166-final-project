@@ -1,4 +1,4 @@
-<div class="expense-nav">
+<section class="expense-nav">
   <div>
     <button [disabled]="this.year <= 0" (click)="this.getPrevYear()">Prev</button>
   </div>
@@ -6,19 +6,19 @@
   <div>
     <button [disabled]="this.year >= this.curDate.getFullYear()" (click)="this.getNextYear()">Next</button>
   </div>
-</div>
-<div *ngIf="!hasValidData()">
+</section>
+<section *ngIf="!hasValidData()">
   No data is available! Please set up
   <a routerLink="/configure" routerLinkActive="active" ariaCurrentWhenActive="page">categories</a>
   first.
-</div>
+</section>
 <div *ngIf="this.successMsg !== null">
   {{ this.successMsg }}
 </div>
-<div *ngIf="this.errorMsg !== null" class="error">
+<div *ngIf="this.errorMsg !== null" class="error" id="updateErrMsg">
   {{ this.errorMsg }}
 </div>
-<div class="expense-holder" *ngIf="hasValidData()">
+<section class="expense-holder" *ngIf="hasValidData()" aria-errormessage="updateErrMsg">
   <ng-container *ngFor="let month of this.monthLookup; index as i">
     <div *ngIf="this.year < this.curDate.getFullYear() || (this.year === this.curDate.getFullYear() && i <= this.curDate.getMonth())">
       <div class="month-holder">
@@ -35,10 +35,10 @@
           <th>{{ category.name }}</th>
           <td class="money">{{ category.value }}</td>
           <td>
-            <input type="number" value="{{ this.getExpenseValue(category.id, i) }}" min="0" class="money" id="value{{ i }}.{{ category.id }}">
+            <input type="number" value="{{ this.getExpenseValue(category.id, i) }}" min="0" class="money" id="value{{ i+1 }}.{{ category.id }}">
           </td>
         </tr>
       </table>
     </div>
   </ng-container>
-</div>
+</section>

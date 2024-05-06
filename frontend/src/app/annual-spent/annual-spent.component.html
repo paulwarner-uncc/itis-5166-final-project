@@ -1,6 +1,7 @@
 <div class="chart-container">
   <h2>Spending by Month for {{ this.parent.year }}</h2>
-  <canvas [hidden]="this.costs !== null" id="annual-spent">
+  <canvas [hidden]="this.costs !== null" id="annual-spent"
+    aria-label="Your monthly spending for the year.">
     {{ chart }}
   </canvas>
 </div>

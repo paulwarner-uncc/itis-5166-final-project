@@ -1,16 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import "variables.scss";
 
-/* Desktop styling */
-@media screen and (width >= 40em) {
-  h1 {
-    text-align: center;
-  }
-}
-
-/* Mobile styling */
-@media screen and (width < 40em) {
-
+h1 {
+  text-align: center;
 }
 
 body {

@@ -21,10 +21,10 @@
   </tr>
   <tr>
     <th>
-      <input type="text" maxlength="25" id="newName">
+      <input type="text" maxlength="25" id="newName" aria-errormessage="configError">
     </th>
     <td>
-      <input type="number" value="1" min="1" id="newValue" class="money">
+      <input type="number" value="1" min="1" id="newValue" class="money" aria-errormessage="configError">
     </td>
     <td>
       <button (click)="this.createCategory()" id="createButton">Create</button>
@@ -32,4 +32,4 @@
   </tr>
 </table>
 <div *ngIf="this.successMsg">{{ this.successMsg }}</div>
-<div *ngIf="this.errorMsg" class="error">{{ this.errorMsg }}</div>
+<div *ngIf="this.errorMsg" class="error" id="configError">{{ this.errorMsg }}</div>

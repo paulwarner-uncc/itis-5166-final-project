@@ -1,6 +1,7 @@
 <div class="chart-container">
   <h2>Categories by Percentage of Income</h2>
-  <canvas [hidden]="this.categories !== null" id="monthly-budget">
+  <canvas [hidden]="this.categories !== null" id="monthly-budget"
+    aria-label="The percentage that each category takes up in your budget.">
     {{ chart }}
   </canvas>
 </div>

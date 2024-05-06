@@ -1,16 +1,8 @@
 @use 'sass:color';
 @import "../../variables.scss";
 
-/* Desktop styling */
-@media screen and (width >= 40em) {
-  form {
-    text-align: center;
-  }
-}
-
-/* Mobile styling */
-@media screen and (width < 40em) {
-
+form {
+  text-align: center;
 }
 
 div {
@@ -36,6 +28,16 @@ button {
 button:hover {
   background-color: color.adjust($header-bg-color, $lightness: 0%);
   cursor: pointer;
+}
+
+button:disabled {
+  background-color: $button-disabled;
+  color: color.adjust($header-txt-color, $lightness: -5%);
+}
+
+button:disabled:hover {
+  background-color: $button-disabled;
+  cursor: default;
 }
 
 .error {

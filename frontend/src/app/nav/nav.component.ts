@@ -86,6 +86,12 @@ export class NavComponent {
     this.router.events.subscribe((val) => {
       if (val instanceof NavigationEnd) {
         this.redirectAuthenticatedPages();
+
+        // Focus on content at end of navigation
+        const mainElem = document.getElementById("#main");
+        if (mainElem) {
+          mainElem.focus();
+        }
       }
     });
   }
