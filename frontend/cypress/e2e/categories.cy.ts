@@ -18,17 +18,24 @@ describe("Testing categories", () => {
   });
 
   beforeEach(() => {
+    // Open eyes w/ Applitools
+    cy.eyesOpen({
+      appName: "Personal Budget",
+      testName: Cypress.currentTest.title,
+    });
+
     cy.visit("/");
     cy.contains("Log In").click();
     cy.get("#username").type(username);
     cy.get("#password").type(password);
     cy.get("button").click();
 
-    // Test redirect to dashboard
-    cy.contains("Dashboard");
-
     // Redirect to configuration page
     cy.contains("Configure").click();
+  });
+
+  afterEach(() => {
+    cy.eyesClose();
   });
 
   it("Create a category", () => {
@@ -40,6 +47,12 @@ describe("Testing categories", () => {
     cy.contains(catName);
     cy.get("input").then((elem) => {
       expect(parseFloat(elem.val() as string)).to.be.closeTo(parseFloat(catValue), 0.0001);
+    });
+
+    cy.eyesCheckWindow({
+      tag: "Create category",
+      fully: true,
+      matchLevel: "Layout"
     });
   });
 
@@ -63,5 +76,11 @@ describe("Testing categories", () => {
 
     // Check if the category no longer exists
     cy.contains(catName).should("not.exist");
+
+    cy.eyesCheckWindow({
+      tag: "Delete category",
+      fully: true,
+      matchLevel: "Layout"
+    });
   });
 });
